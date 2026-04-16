@@ -1,9 +1,14 @@
 import requests
+import urllib3
 
-url = "http://vps-sni-site.site:5000/api/random"
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-r = requests.get(url, verify=False)
-data = r.json()
-text = data[str(data["id"])]
+url = 'http://vps-sni-site.site:5000/api/random'
 
-print(f"серГЕЙ {text}\nбэээээ")
+def req():
+    for i in range(50):
+        r = requests.get(url, verify=False)
+        data = r.json()
+        text = data[str(data["id"])]
+        print(f'серГЕЙ {text}')
+req()
