@@ -16,4 +16,3 @@ while True:
         sys.exit()
     else:
         print('Введите верный')
-    
