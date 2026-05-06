@@ -33,7 +33,7 @@ def circle():
             elif po=='2':
                 sys.exit(1)
             elif po=='3':
-                his()
+                his() # Костыль
             else:
                 print('Не то число')
         elif pol=='нет':
