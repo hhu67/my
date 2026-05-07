@@ -1,7 +1,7 @@
 #include <stdio.h> 
 int main() {
 	char x[100];
-	printf("Кто сергей? ");
+	printf("Who Sergay ");
 	scanf("%99s", x);
-	printf("Сергей %s\n", x);
+	printf("Sergay: %s\n", x);
 }
