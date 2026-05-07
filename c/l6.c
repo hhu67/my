@@ -2,7 +2,7 @@
 
 int main() {
     int pol;
-    printf("Enter number ");
+    printf("Enter 3 number ");
     scanf("%d", &pol);
     int x1 = pol % 10;
     int x2 = (pol / 10) % 10;
