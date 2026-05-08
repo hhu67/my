@@ -6,11 +6,11 @@ int main() {
     printf("Enter word ");
     scanf("%s", pol);
     int len = strlen(pol);
-    if(len > 50) {
-        printf("Error: too long\n");
-        return 0;
+    for(int i = 0; i < len / 2; i++) {
+    char temp = pol[i];
+    pol[i] = pol[len - 1 - i];
+    pol[len - 1 - i] = temp;
     }
-    strrev(pol);
-    printf("Reversed: %s\n", pol);
+    printf("%s\n", pol);
     return 0;
 }
