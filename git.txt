@@ -1,2 +1,3 @@
 git@gitek.duckdns.org:hhu67/my.git
+git@codeberg.org/hhu67/my.git
 git@github.com:hhu67/my.git
