@@ -1,3 +1,0 @@
-git@gitek.duckdns.org:hhu67/my.git
-ssh://git@codeberg.org/hhu67/my.git
-git@github.com:hhu67/my.git
