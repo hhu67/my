@@ -6,8 +6,35 @@
     <title>HTML</title>
     <style>
         .image {
-            width: 1200px;
+            width: 400px;
             height: auto;
+        }
+        .image2 {
+            text-align: centr;
+        }
+        .image2 {
+            display: inline-block;
+            margin: 10px;
+        }
+        body {
+            background-color: black;
+            color: white;
+        }
+        a {
+            color: red;
+        }
+
+        #about h2 {
+            display: inline-block;
+            width: 100%;
+        }
+        #about p {
+            display: inline-block;
+            width: 100%;
+        }
+        #about p sss:hover,
+        #about h2 sss:hover {
+            color: yellow;
         }
     </style>
 </head>
@@ -21,13 +48,21 @@
         <a href="#about">Обо мне</a>
     </nav>
     <main>
-        <img src="image.jpeg" alt="пушок" class="image">
-        <p>Сайт</p>
+        <div class="image2">
+            <a href="https://images.prom.ua/2987667453_w1280_h640_2987667453.jpg">
+                <img src="https://images.prom.ua/2987667453_w1280_h640_2987667453.jpg" alt="пушок" class="image">
+            </a>
+            <a href="https://esd.adventist.org/wp-content/uploads/2023/07/6-2.jpg">
+                <img src="https://esd.adventist.org/wp-content/uploads/2023/07/6-2.jpg" alt="сергей" class="image">
+            </a>
+        </div>
     </main>
     <footer>
         <section id="about">
-            <h2>Я да</h2>
-            <p>ДА да</p>
+            <div class="color">
+                <h2><sss>Я да</sss></h2>
+                <p><sss>ДА да</sss></p>
+            </div>
         </section>
     </footer>
 </body>
