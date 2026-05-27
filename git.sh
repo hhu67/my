@@ -1,14 +1,29 @@
+#!/bin/bash
+
 echo "name for commit: "
 read com
 git add .
 git commit -m "$com"
-git remote add gitflic git@gitflic.ru:hhu67/proj.git
-git remote add github git@github.com:hhu67/my.git
-git remote add gitea git@gitek.duckdns.org:hhu67/my.git
-git remote add berg ssh://git@codeberg.org/hhu67/my.git
-git remote add gitea.org git@gitea.com:hhu67/my.git
-git push gitflic main
-git push github main
-git push gitea main 
-git push berg main
-git push gitea.org main
+declare -A remotes=(
+    ["gitflic"]="git@gitflic.ru:hhu67/proj.git"
+    ["github"]="git@github.com:hhu67/my.git"
+    ["gitea"]="git@gitek.duckdns.org:hhu67/my.git"
+    ["berg"]="ssh://git@codeberg.org/hhu67/my.git"
+    ["gitea.org"]="git@gitea.com:hhu67/my.git"
+)
+manage_remote() {
+    local name=$1
+    local url=$2
+    
+    if git remote | grep -q "^${name}$"; then
+        echo "Remote '$name' уже существует, пропускаю добавление."
+    else
+        echo "Добавляю remote: $name"
+        git remote add "$name" "$url"
+    fi
+}
+for name in "${!remotes[@]}"; do
+    manage_remote "$name" "${remotes[$name]}"
+    echo "Пушу в $name..."
+    git push "$name" main
+done
