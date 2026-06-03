@@ -10,6 +10,7 @@ func main() {
 	err := godotenv.Load()
 	if err != nil {
 		fmt.Println("не")
+		return
 	}
 	api := os.Getenv("api_key")
 	fmt.Println(api)
