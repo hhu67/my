@@ -3,7 +3,7 @@ strings:
     .HasSuffix(x, "aaa") - для проверки оканчивается ли x на ааа(true/false)
     .HasPrefix(x, "aaa") - для проверки начинается ли x на aaa(true/false)
     .Contains(x, "aaa") - для проверки существует ли вообще aaa в x(true/false)
-    .ContainsAny(x, "abc") - для проверки есть ли в x буквы a b c
+    .ContainsAny(x, "abc") - для проверки есть ли в x буквы a b c(true/false)
     .Count(x, "aaa") - для продсчета сколько в x aaa
     .EqualFold(x, x2) - сравнивает переменные без учета их регистра 
 slice:
