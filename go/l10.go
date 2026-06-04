@@ -26,8 +26,17 @@ func vowel(vow string) int {
 	return wovel
 }
 
+func recovery(rec string) string {
+	runes := []rune(rec)
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
+}
+
 func main() {
 	po1, po2 := polz()
-	fmt.Println(vowel(po1))
-	fmt.Println(po1, po2)
+	fmt.Println("Вот колличество гласных в первом", vowel(po1))
+	fmt.Println("Вот слова", po1, po2)
+	fmt.Println("Вот перевернутое первое слово", recovery(po1))
 }
