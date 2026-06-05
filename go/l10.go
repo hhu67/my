@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"slices"
 )
 
 func polz() (string, string) {
@@ -34,9 +35,18 @@ func recovery(rec string) string {
 	return string(runes)
 }
 
+func anag(rec string, recc string) bool {
+	runes := []rune(strings.ToLower(rec))
+	runi := []rune(strings.ToLower(recc))
+	slices.Sort(runes)
+	slices.Sort(runi)
+	return slices.Compare(runes, runi) == 0
+}
+
 func main() {
 	po1, po2 := polz()
 	fmt.Println("Вот колличество гласных в первом", vowel(po1))
 	fmt.Println("Вот слова", po1, po2)
 	fmt.Println("Вот перевернутое первое слово", recovery(po1))
+	fmt.Println(anag(po1, po2))
 }
