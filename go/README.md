@@ -1,5 +1,6 @@
 strings:
     .ToLower(x) - для одного нижнего регистра
+    .ToUpper(x) - для одного высокого регистра
     .HasSuffix(x, "aaa") - для проверки оканчивается ли x на ааа(true/false)
     .HasPrefix(x, "aaa") - для проверки начинается ли x на aaa(true/false)
     .Contains(x, "aaa") - для проверки существует ли вообще aaa в x(true/false)
@@ -15,3 +16,4 @@ slice:
     x = append(x[:index], x[index2]...) - для удаления элемента среза
     lenx = len(x) = для подсчета позиций в срезе
     .Compare(x1, x2) - для проверки равности
+    .Sort(x) - для сортировки в порядке возрастания

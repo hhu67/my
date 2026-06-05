@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 	"slices"
+	"unicode"
 )
 
 func polz() (string, string) {
@@ -43,10 +44,17 @@ func anag(rec string, recc string) bool {
 	return slices.Compare(runes, runi) == 0
 }
 
+func format(pof1 string) string {
+	runes := []rune(pof1)
+	runes[0] = unicode.ToUpper(runes[0])
+	return string(runes)
+}
+
 func main() {
 	po1, po2 := polz()
 	fmt.Println("Вот колличество гласных в первом", vowel(po1))
 	fmt.Println("Вот слова", po1, po2)
 	fmt.Println("Вот перевернутое первое слово", recovery(po1))
 	fmt.Println(anag(po1, po2))
+	fmt.Println(format(po1))
 }
