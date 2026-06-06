@@ -5,13 +5,14 @@ import (
 )
 
 func logic() string {
+	var phrase string
 	fmt.Println("Твой возраст")
 	var x int
 	_, err := fmt.Scan(&x)
 	if err != nil {
-		return "еблан"
+		phrase = "еблан"
+		return phrase
 	}
-	var phrase string
 	switch {
 	case x < 0:
 		phrase = "Ты еще не родился"
