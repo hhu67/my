@@ -10,7 +10,7 @@ import (
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatalf("%v\n", err)
+		log.Fatalln(err)
 		return
 	}
 	api := os.Getenv("api_key")
