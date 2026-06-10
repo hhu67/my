@@ -5,7 +5,6 @@ read com
 git add .
 git commit -m "$com"
 declare -A remotes=(
-    ["gitflic"]="git@gitflic.ru:hhu67/proj.git"
     ["github"]="git@github.com:hhu67/my.git"
     ["forgejo"]="forgejo@git.vlv-s.site:hhu67/my.git"
     ["berg"]="ssh://git@codeberg.org/hhu67/my.git"
