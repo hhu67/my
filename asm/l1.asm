@@ -1,5 +1,5 @@
 section .data
-    msg db 'Hello, World!', 0xa  ; Перенос строки и данные на новой строке
+    msg db 'Hello, World!'
     len equ $ - msg
 
 section .text
