@@ -27,8 +27,9 @@ func main() {
 		if update.Message == nil {
 			continue
 		}
+		id := update.Message.Chat.ID
 		if update.Message.IsCommand() && update.Message.Command() == "start" {
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Сергей")
+			msg := tgbotapi.NewMessage(id, "Сергей")
 			bot.Send(msg)
 		}
 	}
