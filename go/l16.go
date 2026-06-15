@@ -22,8 +22,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", handler)
-	err := http.ListenAndServe(":2345", nil)
+	http.HandleFunc("/VSZw5p9vwaCxQgU/", handler)
+	err := http.ListenAndServe(":23455", nil)
 	if err != nil {
 		log.Fatalf("%v\n", err)
 	}
