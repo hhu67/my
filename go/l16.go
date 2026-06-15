@@ -18,7 +18,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalf("%v\n", err)
 	}
-	fmt.Fprintf(w, string(html))
+	fmt.Fprint(w, string(html))
 }
 
 func main() {
