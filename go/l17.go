@@ -54,11 +54,15 @@ func main() {
 	broker := os.Getenv("broker_mqtt")
 	ClientID := os.Getenv("clientid_mqtt")
 	topic := os.Getenv("topic_mqtt")
+	username := os.Getenv("login_mqtt")
+	password := os.Getenv("password_mqtt")
 
 	opts := mqtt.NewClientOptions()
 	opts.AddBroker(broker)
 	opts.SetClientID(ClientID)
 	opts.SetConnectTimeout(5 * time.Second)
+	opts.SetUsername(username)
+        opts.SetPassword(password)
 
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil { log.Fatalf("%v\n", token.Error()) }
@@ -68,7 +72,9 @@ func main() {
 	city, temp := WeatherReq()
 	payload := fmt.Sprintf("City: %s, Temperature: %.2f°C", city, temp)
 
-	token := client.Publish(topic, 0, false, payload)
+	token := client.Publish(topic, 1, false, payload)
+	ticket := time.NewTicker(2 * time.Second)
+	defer ticket.Stop()
 	token.Wait()
 	if err = token.Error(); err != nil {
 		log.Fatalf("%v\n", token.Error)
