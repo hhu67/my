@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"fmt"
+	"strconv"
 )
 
 type OpenWeather struct{
@@ -48,6 +49,19 @@ func WeatherReq() (string, float64) {
 	return WeatherData.City, WeatherData.Main.Temp
 }
 
+func Send(client mqtt.Client, topic string) {
+	city, temp := WeatherReq()
+	payload := fmt.Sprintf("City: %s, Temperature: %.2f°C", city, temp)
+
+	token := client.Publish(topic, 1, false, payload)
+	token.Wait()
+	if err := token.Error(); err != nil {
+		log.Fatalf("%v\n", token.Error)
+	} else {
+		fmt.Println("Sent in", topic)
+	}
+}
+
 func main() {
 	err := godotenv.Load()
 	if err != nil { log.Fatalf("%v\n", err) }
@@ -56,6 +70,9 @@ func main() {
 	topic := os.Getenv("topic_mqtt")
 	username := os.Getenv("login_mqtt")
 	password := os.Getenv("password_mqtt")
+	TimeHour := os.Getenv("TimeHourSendMQTT")
+
+	ReallyTimeHour, err := strconv.Atoi(TimeHour)
 
 	opts := mqtt.NewClientOptions()
 	opts.AddBroker(broker)
@@ -67,18 +84,13 @@ func main() {
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil { log.Fatalf("%v\n", token.Error()) }
 	defer client.Disconnect(250)
+
 	fmt.Println("Connect to a broker")
+	ticker := time.NewTicker(time.Duration(ReallyTimeHour) * time.Hour)
+	defer ticker.Stop()
+	Send(client, topic)
 
-	city, temp := WeatherReq()
-	payload := fmt.Sprintf("City: %s, Temperature: %.2f°C", city, temp)
-
-	token := client.Publish(topic, 1, false, payload)
-	ticket := time.NewTicker(2 * time.Second)
-	defer ticket.Stop()
-	token.Wait()
-	if err = token.Error(); err != nil {
-		log.Fatalf("%v\n", token.Error)
-	} else {
-		fmt.Println("Sent in", topic)
+	for range ticker.C {
+		Send(client, topic)
 	}
 }
