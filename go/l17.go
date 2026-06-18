@@ -17,10 +17,17 @@ type OpenWeather struct{
 	City string `json:"name"`
 	Main struct {
 		Temp float64 `json:"temp"`
+		FeelLike float64 `json:"feels_like"`
 	} `json:"main"`
+	Weather []struct {
+		MainWeather string `json:"main"`
+	} `json:"weather"`
+	Wind struct {
+		Speed float64 `json:"speed"`
+	} `json:"wind"`
 }
 
-func WeatherReq() (string, float64) {
+func WeatherReq() (string, float64, string, float64, float64) {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("upload your .env file %v\n", err)
@@ -55,12 +62,12 @@ func WeatherReq() (string, float64) {
 	if err != nil {
 		log.Fatalf("%v\n", err)
 	}
-	return WeatherData.City, WeatherData.Main.Temp
+	return WeatherData.City, WeatherData.Main.Temp, WeatherData.Weather[0].MainWeather, WeatherData.Wind.Speed, WeatherData.Main.FeelLike
 }
 
 func Send(client mqtt.Client, topic string) {
-	city, temp := WeatherReq()
-	payload := fmt.Sprintf("City: %s, Temperature: %.2f°C", city, temp)
+	city, temp, main, speed, feel := WeatherReq()
+	payload := fmt.Sprintf("City: %s, Temperature: %.2f°C, Feel like %.2f°C\nWeather: %s, Wind %.2fm/s", city, temp, feel, main, speed)
 
 	token := client.Publish(topic, 1, false, payload)
 	token.Wait()
