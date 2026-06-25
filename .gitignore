@@ -1,3 +1,4 @@
 .vscode
 .env
 .idea
+go_build_my_app
