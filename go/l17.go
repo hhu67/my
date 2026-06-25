@@ -1,22 +1,23 @@
 package main
 
 import (
-	"log"
-	"github.com/joho/godotenv"
-	"os"
-	"strings"
-	"net/http"
-	"time"
 	"encoding/json"
-	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"fmt"
+	"log"
+	"net/http"
+	"os"
 	"strconv"
+	"strings"
+	"time"
+
+	mqtt "github.com/eclipse/paho.mqtt.golang"
+	"github.com/joho/godotenv"
 )
 
-type OpenWeather struct{
+type OpenWeather struct {
 	City string `json:"name"`
 	Main struct {
-		Temp float64 `json:"temp"`
+		Temp     float64 `json:"temp"`
 		FeelLike float64 `json:"feels_like"`
 	} `json:"main"`
 	Weather []struct {
@@ -44,8 +45,8 @@ func WeatherReq() (string, float64, string, float64, float64, string) {
 	client := &http.Client{
 		Timeout: 20 * time.Second,
 	}
-	link := "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + api
-	url := strings.ReplaceAll(link, " ", "%20")
+	lin := "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + api
+	url := strings.ReplaceAll(lin, " ", "%20")
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Fatalf("%v\n", err)
@@ -83,17 +84,29 @@ func main() {
 	opts := mqtt.NewClientOptions()
 
 	err := godotenv.Load()
-	if err != nil { log.Fatalf("%v\n", err) }
+	if err != nil {
+		log.Fatalf("%v\n", err)
+	}
 	broker := os.Getenv("broker_mqtt")
-	if broker == "" { log.Fatalf("add yout broker in .env file\n") }
+	if broker == "" {
+		log.Fatalf("add yout broker in .env file\n")
+	}
 	ClientID := os.Getenv("clientid_mqtt")
-	if ClientID == "" { log.Fatalf("add your client id in .env file") }
+	if ClientID == "" {
+		log.Fatalf("add your client id in .env file")
+	}
 	topic := os.Getenv("topic_mqtt")
-	if topic == "" { log.Fatalf("add your topic in .env file") }
+	if topic == "" {
+		log.Fatalf("add your topic in .env file")
+	}
 	username := os.Getenv("login_mqtt")
-	if username != "" { opts.SetUsername(username) }
+	if username != "" {
+		opts.SetUsername(username)
+	}
 	password := os.Getenv("password_mqtt")
-	if password != "" { opts.SetPassword(password) }
+	if password != "" {
+		opts.SetPassword(password)
+	}
 	TimeHour := os.Getenv("TimeHourSendMQTT")
 
 	opts.AddBroker(broker)
@@ -101,14 +114,18 @@ func main() {
 	opts.SetConnectTimeout(5 * time.Second)
 
 	client := mqtt.NewClient(opts)
-	if token := client.Connect(); token.Wait() && token.Error() != nil { log.Fatalf("%v\n", token.Error()) }
+	if token := client.Connect(); token.Wait() && token.Error() != nil {
+		log.Fatalf("%v\n", token.Error())
+	}
 	defer client.Disconnect(250)
 
 	fmt.Println("Connect to a broker")
 	var ticker *time.Ticker
 	if TimeHour != "" {
 		ReallyTimeHour, err := strconv.Atoi(TimeHour)
-		if err != nil { log.Fatalf("%s\n", err) }
+		if err != nil {
+			log.Fatalf("%s\n", err)
+		}
 		ticker = time.NewTicker(time.Duration(ReallyTimeHour) * time.Hour)
 	} else {
 		ticker = time.NewTicker(2 * time.Hour)
