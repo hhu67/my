@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"net/http"
 	"encoding/json"
+	"strings"
 )
 
 type User struct{
 	Age int `json:"age"`
 	Name string `json:"name"`
 	Email string `json:"email"`
+	Alive bool `json:"alive"`
 }
 
 var setChan = make(chan User)
@@ -27,6 +29,22 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer r.Body.Close()
+	i := 0
+	if data.Age > 150 {
+		i++
+	}
+	CheckEmail := strings.ContainsAny(data.Email, "@.")
+	if CheckEmail != true {
+		i++
+	}
+	if data.Alive != true {
+		i++
+	}
+	if i != 0 {
+		msg := fmt.Sprintf("Error: %d", i)
+		http.Error(w, msg, http.StatusBadRequest)
+		return
+	}
 	
 	setChan <- data
 	w.WriteHeader(http.StatusOK)
