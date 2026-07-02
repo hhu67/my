@@ -20,16 +20,16 @@ func main() {
 	}
 	defer db.Close()
 
-	sqlStmt := `CREATE TABLE IF NOT EXISTS users (id INTEGER NOT NULL PRIMARY KEY, name TEXT, time TEXT);`
+	sqlStmt := `CREATE TABLE IF NOT EXISTS l1 (id INTEGER NOT NULL PRIMARY KEY, name TEXT, time TEXT);`
 	_, err = db.Exec(sqlStmt)
 	if err != nil {
 		panic(err)
 	}
-	_, err = db.Exec("INSERT INTO users(name, time) VALUES(?, ?)", username, userTime)
+	_, err = db.Exec("INSERT INTO l1 (name, time) VALUES(?, ?)", username, userTime)
 	if err != nil {
 		panic(err)
 	}
-	rows, err := db.Query("SELECT id, name, time FROM users")
+	rows, err := db.Query("SELECT id, name, time FROM l1")
 	if err != nil {
 		panic(err)
 	}

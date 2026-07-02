@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"encoding/json"
 	"strings"
+	"database/sql"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type User struct{
@@ -53,9 +55,54 @@ func handle(w http.ResponseWriter, r *http.Request) {
 
 func WatchChanell() {
 	for u := range setChan {
-		JsonData, err := json.Marshal(u)
-		if err != nil { continue }
-		fmt.Println(string(JsonData))
+		db, err := sql.Open("sqlite3", "./base.db")
+		if err != nil {
+			panic(err)
+		}
+		defer db.Close()
+		sqlStmt :=  `CREATE TABLE IF NOT EXISTS l1 (
+			id INTEGER NOT NULL PRIMARY KEY,
+			age INTEGER DEFAULT 0,
+			name TEXT,
+			email TEXT,
+			alive INTEGER NOT NULL DEFAULT 0 CHECK (alive IN (0, 1))
+		); `
+		_, err = db.Exec(sqlStmt)
+		if err != nil {
+			panic(err)
+		}
+		var Alive int
+		if u.Alive {
+			Alive = 1
+		} else {
+			Alive = 0
+		}
+		_, err = db.Exec("INSERT INTO l1 (age, name, email, alive) VALUES(?, ?, ?, ?)", u.Age, u.Name, u.Email, Alive)
+		if err != nil {
+			panic(err)
+		}
+		defer db.Close()
+		rows, err := db.Query("SELECT id, age, name, email, alive FROM l1")
+		if err != nil {
+			panic(err)
+		}
+		for rows.Next() {
+			var id int
+			var age int
+			var name string
+			var email string
+			var alive int
+			var boolAlive bool
+			rows.Scan(&id, &age, &name, &email, &alive)
+			if alive == 1 {
+				boolAlive = true
+			}
+			if alive == 0 {
+				boolAlive = false
+			}
+			StrAnswer := fmt.Sprintf("ID %d, Age %d, Name %s, Email %s, Alive %t\n", id, age, name, email, boolAlive)
+			fmt.Printf("%s", StrAnswer)
+		}
 	}
 }
 
